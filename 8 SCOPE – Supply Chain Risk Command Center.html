@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SCOPE – Supply Chain Risk Command Center</title>
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--tx:#14213d;--mut:#667085;--bd:#e3e8f0;--ac:#2563eb;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef2ff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1220;--card:#131c2e;--tx:#e6ebf5;--mut:#93a0b8;--bd:#24304a;--ac:#5b8def;--ok:#34d399;--warn:#fbbf24;--bad:#f87171;--soft:#1b2745;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1220;--card:#131c2e;--tx:#e6ebf5;--mut:#93a0b8;--bd:#24304a;--ac:#5b8def;--ok:#34d399;--warn:#fbbf24;--bad:#f87171;--soft:#1b2745;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--card);border-bottom:1px solid var(--bd)}
+h1{font-size:17px;margin:0}h1 span{color:var(--mut);font-weight:400;font-size:12px;display:block}
+nav{display:flex;gap:4px;flex-wrap:wrap;padding:10px 20px 0}nav button{border:0;background:none;color:var(--mut);padding:8px 14px;border-radius:8px 8px 0 0;cursor:pointer;font:inherit;font-weight:600}
+nav button.on{color:var(--ac);background:var(--card);box-shadow:inset 0 -2px var(--ac)}
+main{padding:16px 20px 40px;max-width:1280px;margin:auto}
+.g{display:grid;gap:14px}.k{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.c2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;min-width:0}
+.card h3{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+.kpi b{font-size:26px;display:block}.kpi small{color:var(--mut)}
+.pill{display:inline-block;padding:1px 9px;border-radius:99px;font-size:11px;font-weight:700;color:#fff}
+.crit{background:var(--bad)}.high{background:var(--warn)}.med{background:#ca8a04}.ok{background:var(--ok)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;color:var(--mut);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}td{padding:7px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
+.bar{height:8px;border-radius:5px;background:var(--bd);overflow:hidden;min-width:70px}.bar i{display:block;height:100%}
+.ctl{display:flex;flex-wrap:wrap;gap:14px;align-items:center}.ctl label{font-size:12px;color:var(--mut);display:flex;flex-direction:column;gap:3px}
+select,input[type=text]{background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:7px 10px;font:inherit}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:7px 14px;cursor:pointer;font:inherit;font-weight:600}.btn.alt{background:var(--soft);color:var(--ac)}.btn.done{background:var(--ok)}
+.chat{display:flex;flex-direction:column;height:520px}.msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px}
+.m{max-width:88%;padding:10px 13px;border-radius:12px;background:var(--bg);border:1px solid var(--bd)}.m.u{align-self:flex-end;background:var(--ac);color:#fff;border:0}
+.tool{font-size:11px;color:var(--mut);font-family:ui-monospace,monospace;margin-bottom:4px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.chip{background:var(--soft);color:var(--ac);border:0;border-radius:99px;padding:5px 12px;cursor:pointer;font:inherit;font-size:12px}
+.row{display:flex;gap:8px}.row input{flex:1}
+.feed div{padding:8px 0;border-bottom:1px solid var(--bd);display:flex;gap:8px;align-items:flex-start}
+.hm td{text-align:center;color:#fff;font-weight:700}
+ul{padding-left:18px;margin:6px 0}p{margin:6px 0}
+</style></head><body>
+<header><h1>SCOPE · Supply Chain Operations Prediction Engine<span>AI risk command center · simulated data · refreshed 27 Oct 2026</span></h1>
+<div class="ctl"><button class="btn alt" id="th">Toggle theme</button></div></header>
+<nav id="nav"></nav><main id="app"></main>
+<script>
+const $=s=>document.querySelector(s),cl=x=>Math.max(0,Math.min(100,x)),R=Math.round;
+const S=[
+{id:'S1',n:'Apex Microelectronics',r:'Taiwan',otd:82,lv:7.5,df:2.1,fin:70,geo:68,single:1,alt:'S7',tr:[94,92,89,87,84,82]},
+{id:'S2',n:'SteelCore Metals',r:'India',otd:93,lv:2.5,df:.9,fin:85,geo:25,single:0,alt:'S8',tr:[92,94,93,93,92,93]},
+{id:'S3',n:'PolyForm Plastics',r:'Vietnam',otd:88,lv:4,df:1.6,fin:62,geo:45,single:0,alt:null,tr:[91,90,89,89,88,88]},
+{id:'S4',n:'Nordic Bearings',r:'Germany',otd:96,lv:1.5,df:.4,fin:92,geo:15,single:0,alt:null,tr:[95,96,96,97,96,96]},
+{id:'S5',n:'Sunrise Battery Co.',r:'China',otd:79,lv:9,df:2.8,fin:54,geo:72,single:1,alt:null,tr:[90,88,85,83,80,79]},
+{id:'S6',n:'GreenPack Packaging',r:'India',otd:95,lv:1.8,df:.6,fin:88,geo:20,single:0,alt:null,tr:[95,94,95,96,95,95]},
+{id:'S7',n:'Kyoto Semiconductors',r:'Japan',otd:94,lv:2.2,df:.7,fin:90,geo:35,single:0,alt:null,tr:[93,94,94,95,94,94]},
+{id:'S8',n:'Deccan Alloys',r:'India',otd:90,lv:3,df:1.1,fin:78,geo:22,single:0,alt:null,tr:[91,90,90,91,90,90]}];
+const K=[
+{id:'K1',n:'Microcontroller MCU-32',s:'S1',oh:6600,d:600,lead:14},{id:'K2',n:'Li-ion Cell 18650',s:'S5',oh:12000,d:800,lead:21},
+{id:'K3',n:'Steel Sheet 2mm (t)',s:'S2',oh:52,d:3,lead:10},{id:'K4',n:'ABS Housing Shell',s:'S3',oh:6000,d:450,lead:12},
+{id:'K5',n:'Ball Bearing 6204',s:'S4',oh:12000,d:500,lead:9},{id:'K6',n:'Corrugated Carton',s:'S6',oh:8000,d:300,lead:5},
+{id:'K7',n:'Power IC PMIC-7',s:'S7',oh:3000,d:250,lead:12},{id:'K8',n:'Aluminium Extrusion (t)',s:'S8',oh:40,d:2.5,lead:11}];
+const H=[
+{id:'SH1',k:'K1',c:'OceanLink',route:'Kaohsiung → Chennai',port:'Chennai',eta:12,dl:4},
+{id:'SH2',k:'K2',c:'BlueWave',route:'Shenzhen → Nhava Sheva',port:'Nhava Sheva',eta:16,dl:3},
+{id:'SH3',k:'K3',c:'RoadX',route:'Jamshedpur → Plant',port:'Road',eta:8,dl:0},
+{id:'SH4',k:'K4',c:'OceanLink',route:'Haiphong → Chennai',port:'Chennai',eta:10,dl:2},
+{id:'SH5',k:'K7',c:'AirJet',route:'Osaka → Hyderabad',port:'Nhava Sheva',eta:10,dl:1},
+{id:'SH6',k:'K8',c:'RoadX',route:'Nagpur → Plant',port:'Road',eta:9,dl:0},
+{id:'SH7',k:'K5',c:'EuroLine',route:'Hamburg → Nhava Sheva',port:'Nhava Sheva',eta:7,dl:0}];
+const O=[
+{id:'P1',n:'E-Scooter Controller X2',l:'Line 1',due:14,v:480,need:['K1','K7']},
+{id:'P2',n:'Battery Pack 48V',l:'Line 2',due:12,v:620,need:['K2','K4']},
+{id:'P3',n:'Industrial Motor M5',l:'Line 3',due:16,v:350,need:['K3','K5','K8']},
+{id:'P4',n:'Smart Meter SM-100',l:'Line 1',due:20,v:410,need:['K1','K4','K6']},
+{id:'P5',n:'Charger Unit CU-9',l:'Line 2',due:24,v:190,need:['K2','K6','K7']}];
+const st={w:{del:30,var:15,q:15,fin:20,geo:20},surge:0,strike:false,fail:'',tab:'ov',ok:{}};
+const W=[['del','On-time delivery'],['var','Lead-time variability'],['q','Quality defects'],['fin','Financial health'],['geo','Geo-political risk']];
+const col=v=>v>=60?'var(--bad)':v>=40?'var(--warn)':'var(--ok)';
+const sev=g=>g>7?'crit':g>0?'high':null;
+function calc(){
+ const sup=S.map(s=>{const c=[cl((100-s.otd)*4),cl(s.lv*10),cl(s.df*15),100-s.fin,s.geo],w=Object.values(st.w),sw=w.reduce((a,b)=>a+b,0)||1;
+  return {...s,c,score:Math.min(100,R(c.reduce((a,x,i)=>a+x*w[i],0)/sw+(s.single?8:0)))}});
+ const sku=K.map(k=>{const s=sup.find(x=>x.id===k.s),sh=H.find(x=>x.k===k.id);
+  let rep=sh?sh.eta+sh.dl+(st.strike&&sh.port==='Nhava Sheva'?5:0):k.lead; if(st.fail===k.s)rep+=21;
+  const cover=k.oh/(k.d*(1+st.surge/100)),gap=Math.max(0,rep-cover);
+  const sv=sev(gap)||(cover<rep*1.3?'med':'ok');
+  return {...k,sup:s,sh,rep,cover,gap,sv,score:gap>0?Math.min(100,40+gap*8):cover<rep*1.3?30:5}});
+ const ord=O.map(o=>{let g=0,why=[];o.need.forEach(id=>{const k=sku.find(x=>x.id===id);if(k.cover<o.due&&k.gap>0){g=Math.max(g,k.gap);why.push(k)}});
+  return {...o,gap:g,why,sv:g>0?sev(g):'ok'}});
+ const sh=H.map(h=>{const d=h.dl+(st.strike&&h.port==='Nhava Sheva'?5:0)+(st.fail===K.find(k=>k.id===h.k).s?21:0);return {...h,d}});
+ const avg=a=>a.reduce((x,y)=>x+y,0)/a.length,atr=ord.filter(o=>o.gap>0);
+ const idx=R(.3*avg(sup.map(s=>s.score))+.3*avg(sku.map(s=>s.score))+.2*avg(sh.map(h=>cl(h.d*10)))+.2*(atr.length/ord.length*100));
+ return {sup,sku,ord,sh,idx,atr,rev:atr.reduce((a,o)=>a+o.v,0)};
+}
+function mitig(D){const out=[];D.sku.filter(k=>k.sv!=='ok').sort((a,b)=>b.score-a.score).forEach(k=>{
+ const alt=k.sup.alt&&D.sup.find(x=>x.id===k.sup.alt),base=R(k.gap*2500+4000),a=[];
+ if(alt&&k.gap>0)a.push({a:`Place emergency PO with ${alt.n}`,cost:base*1.4,save:Math.min(R(k.gap),9),o:'Procurement'});
+ if(k.sh&&k.gap>0)a.push({a:`Upgrade ${k.sh.id} to air freight (partial lot)`,cost:base,save:R(k.gap*.7),o:'Logistics'});
+ if(k.sup.score>=55)a.push({a:`Executive escalation + weekly capacity call with ${k.sup.n}`,cost:0,save:R(k.gap*.3),o:'Supplier mgmt'});
+ a.push({a:`Raise safety stock to lead time + 20% buffer`,cost:R(k.d*k.lead*.2*3),save:0,o:'Planning'});
+ a.slice(0,2).forEach((x,i)=>out.push({id:k.id+i,k,...x,cost:R(x.cost)}));});return out}
+const spark=a=>{const mn=Math.min(...a)-2,mx=Math.max(...a)+2;return `<svg width="70" height="22"><polyline fill="none" stroke="${a[5]<a[0]-4?'var(--bad)':'var(--ac)'}" stroke-width="2" points="${a.map((v,i)=>`${i*13},${22-(v-mn)/(mx-mn)*20}`).join(' ')}"/></svg>`};
+const bar=(v)=>`<div class="bar"><i style="width:${v}%;background:${col(v)}"></i></div>`;
+const pill=s=>`<span class="pill ${s}">${{crit:'CRITICAL',high:'HIGH',med:'WATCH',ok:'OK'}[s]}</span>`;
+function gauge(v){return `<svg viewBox="0 0 160 100" width="100%" style="max-width:240px"><path d="M10 85 A70 70 0 0 1 150 85" fill="none" stroke="var(--bd)" stroke-width="14" stroke-linecap="round"/><path d="M10 85 A70 70 0 0 1 150 85" fill="none" stroke="${col(v)}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${v*2.2} 300"/><text x="80" y="78" text-anchor="middle" font-size="30" font-weight="700" fill="var(--tx)">${v}</text><text x="80" y="95" text-anchor="middle" font-size="9" fill="var(--mut)">RISK INDEX / 100</text></svg>`}
+function scen(){return `<div class="card"><h3>What-if scenario simulator</h3><div class="ctl">
+<label>Demand surge: <b>+${st.surge}%</b><input type="range" min="0" max="50" value="${st.surge}" oninput="st.surge=+this.value;draw()"></label>
+<label>Supplier failure (+21 days)<select onchange="st.fail=this.value;draw()"><option value="">None</option>${S.map(s=>`<option value="${s.id}" ${st.fail===s.id?'selected':''}>${s.n}</option>`).join('')}</select></label>
+<label>Port strike<button class="btn ${st.strike?'':'alt'}" onclick="st.strike=!st.strike;draw()">${st.strike?'Nhava Sheva strike: ON (+5d)':'Nhava Sheva strike: OFF'}</button></label>
+<button class="btn alt" onclick="st.surge=0;st.fail='';st.strike=false;draw()">Reset</button></div></div>`}
+const T={
+ov(D){const crit=D.sku.filter(k=>k.sv==='crit'||k.sv==='high').length,hs=D.sup.filter(s=>s.score>=55).length;
+ return `${scen()}<div class="g k" style="margin-top:14px"><div class="card" style="text-align:center">${gauge(D.idx)}</div>
+ <div class="card kpi"><small>Revenue at risk</small><b style="color:var(--bad)">$${D.rev}k</b><small>${D.atr.length} of ${D.ord.length} production orders</small></div>
+ <div class="card kpi"><small>High-risk suppliers</small><b>${hs}</b><small>of ${S.length} (score ≥ 55)</small></div>
+ <div class="card kpi"><small>SKUs facing stockout</small><b>${crit}</b><small>before replenishment lands</small></div>
+ <div class="card kpi"><small>Avg shipment delay</small><b>${(D.sh.reduce((a,h)=>a+h.d,0)/D.sh.length).toFixed(1)}d</b><small>${D.sh.filter(h=>h.d>2).length} shipments slipping</small></div></div>
+ <div class="g c2" style="margin-top:14px"><div class="card"><h3>Early-warning alert feed</h3><div class="feed">${alerts(D).map(a=>`<div>${pill(a[0])}<span>${a[1]}</span></div>`).join('')}</div></div>
+ <div class="card"><h3>Production orders vs. material readiness</h3><div class="tw"><table><tr><th>Order</th><th>Due</th><th>Value</th><th>Gap</th><th>Status</th></tr>${D.ord.map(o=>`<tr><td>${o.id} ${o.n}</td><td>D+${o.due}</td><td>$${o.v}k</td><td>${o.gap?o.gap.toFixed(1)+'d':'-'}</td><td>${pill(o.sv)}</td></tr>`).join('')}</table></div></div></div>`},
+sup(D){return `<div class="card"><h3>Adjust risk model weights (live re-scoring)</h3><div class="ctl">${W.map(([k,l])=>`<label>${l}: <b>${st.w[k]}</b><input type="range" min="0" max="50" value="${st.w[k]}" oninput="st.w['${k}']=+this.value;draw()"></label>`).join('')}</div></div>
+ <div class="g c2" style="margin-top:14px"><div class="card"><h3>Supplier risk ranking</h3><div class="tw"><table><tr><th>Supplier</th><th>Region</th><th>OTD 6-wk</th><th>Risk</th><th></th></tr>${[...D.sup].sort((a,b)=>b.score-a.score).map(s=>`<tr><td>${s.n}${s.single?' <small style="color:var(--bad)">single-source</small>':''}</td><td>${s.r}</td><td>${spark(s.tr)} ${s.otd}%</td><td><b>${s.score}</b></td><td>${bar(s.score)}</td></tr>`).join('')}</table></div></div>
+ <div class="card"><h3>Risk driver heatmap</h3><div class="tw"><table class="hm"><tr><th>Supplier</th>${W.map(w=>`<th>${w[1].split(' ')[0]}</th>`).join('')}</tr>${D.sup.map(s=>`<tr><td style="color:var(--tx);text-align:left">${s.id}</td>${s.c.map(v=>`<td style="background:${col(v)}">${R(v)}</td>`).join('')}</tr>`).join('')}</table></div><p style="color:var(--mut);font-size:12px">Each cell is a 0–100 normalised risk. Single-source dependency adds +8 to the supplier score.</p></div></div>`},
+inv(D){const mx=Math.max(...D.sku.map(k=>Math.max(k.cover,k.rep)))*1.1;
+ return `${scen()}<div class="card" style="margin-top:14px"><h3>Days of cover vs. replenishment arrival</h3><div class="tw"><table><tr><th>SKU</th><th>Supplier</th><th>On hand</th><th>Cover</th><th style="width:40%">Cover (bar) vs. replenishment (line)</th><th>Stockout gap</th><th>Status</th></tr>${D.sku.map(k=>`<tr><td>${k.n}</td><td>${k.sup.id}</td><td>${k.oh.toLocaleString()}</td><td>${k.cover.toFixed(1)}d</td><td><div class="bar" style="position:relative;height:12px"><i style="width:${k.cover/mx*100}%;background:${col(k.score)}"></i><span style="position:absolute;left:${k.rep/mx*100}%;top:-3px;height:18px;width:3px;background:var(--tx)"></span></div></td><td>${k.gap?k.gap.toFixed(1)+'d':'-'}</td><td>${pill(k.sv)}</td></tr>`).join('')}</table></div><p style="color:var(--mut);font-size:12px">When the black marker (replenishment day) is right of the bar end, production starves before material arrives.</p></div>`},
+log(D){return `${scen()}<div class="card" style="margin-top:14px"><h3>Inbound shipments</h3><div class="tw"><table><tr><th>ID</th><th>Material</th><th>Carrier</th><th>Route</th><th>Planned ETA</th><th>Delay</th><th>New ETA</th><th>Status</th></tr>${D.sh.map(h=>`<tr><td>${h.id}</td><td>${K.find(k=>k.id===h.k).n}</td><td>${h.c}</td><td>${h.route}</td><td>D+${h.eta}</td><td>${h.d}d</td><td>D+${h.eta+h.d}</td><td>${pill(h.d>=7?'crit':h.d>=3?'high':h.d>0?'med':'ok')}</td></tr>`).join('')}</table></div></div>`},
+act(D){const M=mitig(D);return `<div class="card"><h3>AI-recommended mitigation plan · ${M.length} actions</h3><div class="tw"><table><tr><th>Risk</th><th>Recommended action</th><th>Owner</th><th>Est. cost</th><th>Days saved</th><th></th></tr>${M.map(m=>`<tr><td>${pill(m.k.sv)} ${m.k.n}</td><td>${m.a}</td><td>${m.o}</td><td>$${m.cost.toLocaleString()}</td><td>${m.save}d</td><td><button class="btn ${st.ok[m.id]?'done':''}" onclick="st.ok['${m.id}']=!st.ok['${m.id}'];draw()">${st.ok[m.id]?'Approved ✓':'Approve'}</button></td></tr>`).join('')||'<tr><td>No actions needed.</td></tr>'}</table></div>
+ <p>Approved: <b>${M.filter(m=>st.ok[m.id]).length}</b> · committed spend <b>$${M.filter(m=>st.ok[m.id]).reduce((a,m)=>a+m.cost,0).toLocaleString()}</b> · recoverable <b>${M.filter(m=>st.ok[m.id]).reduce((a,m)=>a+m.save,0)}</b> delay-days</p></div>`},
+ag(D){return `<div class="g c2"><div class="card chat"><h3>AI Operations Agent</h3><div class="msgs" id="msgs"></div><div class="chips">${['Give me an executive briefing','Which orders are at risk?','Top supplier risks','Stock critical SKUs','Recommend mitigation','Simulate a port strike','Why is Apex risky?'].map(c=>`<button class="chip" onclick="ask('${c}')">${c}</button>`).join('')}</div><div class="row"><input type="text" id="q" placeholder="Ask about suppliers, SKUs, orders, scenarios…" onkeydown="if(event.key==='Enter')ask()"><button class="btn" onclick="ask()">Send</button></div></div>
+ <div class="card"><h3>How the agent works</h3><ul><li><b>Sense:</b> pulls supplier, inventory, shipment and order data.</li><li><b>Score:</b> weighted supplier risk, days-of-cover vs. replenishment gap, delay propagation.</li><li><b>Predict:</b> which production orders will starve and when.</li><li><b>Act:</b> ranks mitigation by days saved per dollar; human approves.</li><li><b>Simulate:</b> the agent can change scenarios and report the delta live.</li></ul><p style="color:var(--mut);font-size:12px">This demo agent uses a rule-based reasoning engine over the live dashboard state. In production, an LLM would orchestrate the same tools (query_inventory, score_suppliers, simulate_scenario).</p></div></div>`},
+br(){return `<div class="g c2"><div class="card"><h3>The problem, explained</h3><p>The company discovers supplier, inventory and transport problems <b>after</b> they hurt: a late shipment is noticed when the line stops. Data sits in separate systems (ERP, WMS, TMS, supplier portals), so no one sees how a small slip in one place becomes a missed customer order.</p><p><b>Goal:</b> an AI operations system that continuously joins these data sources, detects <b>emerging</b> risk early, predicts impact on production orders, and recommends actions.</p><p><b>Reactive today → predictive tomorrow:</b> from “the line is down” to “Line 1 starves in 7 days unless we act now”.</p></div>
+ <div class="card"><h3>Analyst’s solution blueprint</h3><ul><li><b>Data:</b> supplier OTD, lead-time variance, defects, financials; stock and usage; shipment ETAs; production schedule and BOM.</li><li><b>Features:</b> OTD trend slope, days of cover, replenishment gap, single-source flag, port congestion.</li><li><b>Models:</b> weighted risk scoring (this demo) → upgrade to gradient boosting for delay probability and a time-series demand forecast.</li><li><b>Agent layer:</b> LLM with tools to query data, simulate, recommend, and draft supplier emails.</li><li><b>KPIs:</b> stockout days, OTIF, expedite cost, revenue at risk, early-warning lead time.</li><li><b>Assumptions:</b> all data here is synthetic; weights are adjustable on the Suppliers tab.</li></ul></div></div>`}};
+function alerts(D){const a=[];D.sup.filter(s=>s.score>=55).forEach(s=>a.push([s.score>=65?'crit':'high',`<b>${s.n}</b> risk ${s.score}: OTD fell from ${s.tr[0]}% to ${s.otd}% in 6 weeks.`]));
+ D.sku.filter(k=>k.gap>0).forEach(k=>a.push([k.sv,`<b>${k.n}</b> runs out in ${k.cover.toFixed(1)}d; replenishment lands D+${k.rep} (${k.gap.toFixed(1)}d gap).`]));
+ D.sh.filter(h=>h.d>=5).forEach(h=>a.push(['high',`Shipment <b>${h.id}</b> (${h.route}) delayed ${h.d} days.`]));
+ return a.sort((x,y)=>['crit','high','med'].indexOf(x[0])-['crit','high','med'].indexOf(y[0])).slice(0,8)}
+const tabs=[['ov','Overview'],['sup','Suppliers'],['inv','Inventory'],['log','Logistics'],['act','Mitigation'],['ag','AI Agent'],['br','Brief']];
+let hist=[];
+function draw(){const D=calc();window.D=D;$('#nav').innerHTML=tabs.map(([k,l])=>`<button class="${st.tab===k?'on':''}" onclick="st.tab='${k}';draw()">${l}</button>`).join('');
+ const q=$('#q')?.value;$('#app').innerHTML=T[st.tab](D);
+ if(st.tab==='ag'){const m=$('#msgs');m.innerHTML=hist.length?hist.map(h=>h).join(''):'';if(!hist.length)push(`<div class="m">Hi, I’m your supply chain operations agent. Ask me anything or tap a suggestion. I can analyse risk, predict order impact, recommend mitigation, and run what-if scenarios.</div>`);m.scrollTop=m.scrollHeight;if(q)$('#q').value=q}}
+function push(h){hist.push(h);const m=$('#msgs');if(m){m.insertAdjacentHTML('beforeend',h);m.scrollTop=m.scrollHeight}}
+function ask(t){const i=$('#q');t=t||i.value.trim();if(!t)return;i.value='';push(`<div class="m u">${t.replace(/</g,'&lt;')}</div>`);
+ push(`<div class="m" id="typ">Analysing…</div>`);setTimeout(()=>{$('#typ')?.remove();hist.pop();push(reply(t.toLowerCase()))},600)}
+function reply(q){const D=calc(),f=(tool,b)=>`<div class="m"><div class="tool">⚙ ${tool}</div>${b}</div>`;
+ const sp=S.find(s=>q.includes(s.n.split(' ')[0].toLowerCase())||q.includes(s.id.toLowerCase()));
+ if(/strike|surge|fail|simulat/.test(q)){const b=D.idx,br=D.rev;
+  if(/strike/.test(q))st.strike=true;else if(/surge/.test(q))st.surge=25;else if(sp)st.fail=sp.id;else st.fail='S1';
+  const N=calc();const lbl=st.strike&&/strike/.test(q)?'Nhava Sheva port strike (+5d)':/surge/.test(q)?'25% demand surge':'supplier failure ('+S.find(s=>s.id===st.fail).n+')';
+  return f('simulate_scenario → recompute_risk',`Applied <b>${lbl}</b>.<ul><li>Risk index: ${b} → <b>${N.idx}</b></li><li>Orders at risk: ${D.atr.length} → <b>${N.atr.length}</b></li><li>Revenue at risk: $${br}k → <b>$${N.rev}k</b></li></ul>Scenario is now active on all tabs. Use Reset on the Overview tab to clear it.`)}
+ if(sp&&/why|risk|detail|about|apex|sunrise|polyform|steel|nordic|green|kyoto|deccan/.test(q)){const dr=W.map((w,i)=>[w[1],sp.c[i]]).sort((a,b)=>b[1]-a[1]).slice(0,2),a=sp.alt&&S.find(x=>x.id===sp.alt);
+  return f('score_suppliers → explain_drivers',`<b>${sp.n}</b> (${sp.r}) scores <b>${D.sup.find(x=>x.id===sp.id).score}/100</b>.<ul><li>Top drivers: ${dr.map(d=>`${d[0]} (${R(d[1])})`).join(', ')}</li><li>OTD trend: ${sp.tr.join(' → ')}%</li>${sp.single?'<li>Single-source dependency, no qualified backup.</li>':''}</ul>${a?`Recommended backup: <b>${a.n}</b>.`:'Recommend qualifying a second source.'}`)}
+ if(/order|production|late|line/.test(q)){return f('predict_order_impact',D.atr.length?`<b>${D.atr.length}</b> orders at risk, <b>$${D.rev}k</b> revenue:<ul>${D.atr.map(o=>`<li>${o.id} ${o.n} (${o.l}, due D+${o.due}): short on ${o.why.map(k=>k.n).join(', ')} by ${o.gap.toFixed(1)} days</li>`).join('')}</ul>`:'No production orders are at risk right now.')}
+ if(/stock|inventory|cover|sku/.test(q)){const c=D.sku.filter(k=>k.sv!=='ok').sort((a,b)=>b.score-a.score);return f('query_inventory',c.length?`<ul>${c.map(k=>`<li>${pill(k.sv)} ${k.n}: ${k.cover.toFixed(1)}d cover vs. D+${k.rep} replenishment</li>`).join('')}</ul>`:'All SKUs have healthy cover.')}
+ if(/mitig|recommend|action|fix|what should/.test(q)){const M=mitig(D).filter(m=>m.save>0).sort((a,b)=>b.save/(b.cost||1)-a.save/(a.cost||1)).slice(0,4);return f('rank_actions (days saved per $)',`Top actions:<ul>${M.map(m=>`<li><b>${m.k.n}:</b> ${m.a} (≈$${m.cost.toLocaleString()}, saves ~${m.save}d)</li>`).join('')}</ul>Approve them on the Mitigation tab.`)}
+ if(/supplier/.test(q)){const t=[...D.sup].sort((a,b)=>b.score-a.score).slice(0,3);return f('score_suppliers',`<ul>${t.map(s=>`<li><b>${s.n}</b>: ${s.score} (OTD ${s.otd}%, ${s.r})</li>`).join('')}</ul>`)}
+ if(/revenue|money|impact/.test(q))return f('predict_order_impact',`Revenue at risk is <b>$${D.rev}k</b> across ${D.atr.length} orders.`);
+ if(/brief|summary|top|overview|status|biggest/.test(q)){const a=alerts(D).slice(0,3);return f('scan_all_sources → synthesize',`Risk index <b>${D.idx}/100</b> with <b>$${D.rev}k</b> at risk across ${D.atr.length} orders. Top signals:<ul>${a.map(x=>`<li>${x[1]}</li>`).join('')}</ul>Priority: act on ${mitig(D)[0]?.k.n||'monitoring'} first.`)}
+ return f('help',`Try: “executive briefing”, “which orders are at risk”, “why is Apex risky”, “simulate a port strike”, “recommend mitigation”.`)}
+$('#th').onclick=()=>{const r=document.documentElement,d=getComputedStyle(r).colorScheme.includes('dark')||r.dataset.theme==='dark';r.dataset.theme=d?'light':'dark'};
+draw();
+</script></body></html>
